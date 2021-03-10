@@ -43,6 +43,21 @@ def findtheanime(videofullpath):  # 调用dandanplay的匹配api，返回匹配�
         url="https://api.acplay.net/api/v2/match", headers=headers, json=postjson)
     return ddplayMatchResult
 
+def findtheanimewithouthash(videofullpath):  # 调用dandanplay的匹配api，返回匹配结果
+    
+    videoname = os.path.basename(videofullpath)
+    headers = {"Accept": "application/json"}
+    postjson = {
+        "fileName": videoname,
+        "fileHash": 12345678901234567890123456789012,
+        "fileSize": 0,
+        "videoDuration": 0,
+        "matchMode": "fileNameOnly",
+    }
+    ddplayMatchResult = requests.post(
+        url="https://api.acplay.net/api/v2/match", headers=headers, json=postjson)
+    return ddplayMatchResult
+
 
 def isMatched(ddplayMatchResult):  # 检查匹配结果是否精确
     if json.loads(ddplayMatchResult.text).get('isMatched'):
@@ -366,7 +381,7 @@ for videofullpath in filelist:
                 totalEpisode = 0
                 # 检测是否切换目录 重置flag
 
-            ddplayMatchResult = findtheanime(videofullpath)
+            ddplayMatchResult = findtheanimewithouthash(videofullpath)
             animeIdAndEpisodeIdAndSelectFlag = finishbgmselect(
                 ddplayMatchResult, videofullpath, selectflag, lastanimeId)
 
