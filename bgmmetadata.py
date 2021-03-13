@@ -278,12 +278,11 @@ def finishbgmselect(ddplayMatchResult, videofullpath, selectflag, lastanimeId):#
             if item['animeId'] == lastanimeId:
                 animeIdAndEpisodeIdAndSelectFlag[1] = item['episodeId']
                 animeIdAndEpisodeIdAndSelectFlag[2] = selectflag
+                print('使用上次选择匹配'+os.path.basename(videofullpath))
                 return animeIdAndEpisodeIdAndSelectFlag
-            else:  # 如果这次匹配不含有上次的animeId
-                print(os.path.basename(videofullpath)+'没能正确匹配')
-                animeIdAndEpisodeIdAndSelectFlag = [lastanimeId, 0, selectflag]
-                return animeIdAndEpisodeIdAndSelectFlag
-        print('使用上次选择匹配'+os.path.basename(videofullpath))
+        print(os.path.basename(videofullpath)+'没能正确匹配')
+        animeIdAndEpisodeIdAndSelectFlag = [lastanimeId, 0, selectflag]
+        return animeIdAndEpisodeIdAndSelectFlag
     else:  # 进入自动跳过模式
         animeIdAndEpisodeIdAndSelectFlag = [lastanimeId, 0, selectflag]
         return animeIdAndEpisodeIdAndSelectFlag
