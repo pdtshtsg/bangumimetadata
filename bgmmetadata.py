@@ -296,6 +296,7 @@ selectflag = 0
 lastanimeId = 0
 episodeCounter = 0
 totalEpisode = 0
+finishBgmNfoFlag=0
 # filelist=getfilepathlist(r'Z:\u2pt\[Hakugetsu&VCB-Studio]Gochuumon wa Usagi Desuka[1080p]\SPs')
 filelist = getfilepathlist(os.path.dirname(sys.argv[0]))
 for videofullpath in filelist:
@@ -321,6 +322,7 @@ for videofullpath in filelist:
                 lastanimeId = 0
                 episodeCounter = 0
                 totalEpisode = 0
+                finishBgmNfoFlag=0
                 # 检测是否切换目录 重置flag
 
             ddplayMatchResult = findtheanime(videofullpath)
@@ -331,7 +333,7 @@ for videofullpath in filelist:
                 bangumiresult = findbangumiinfo(
                     animeIdAndEpisodeIdAndSelectFlag[0])
                 epdatadict = getepdata(bangumiresult)
-                if os.path.dirname(videofullpath) != lastvideopath:
+                if os.path.dirname(videofullpath) != lastvideopath or finishBgmNfoFlag==0:
                     tvshowdir = os.path.dirname(videofullpath)+r'\tvshow.nfo'
                     file = open(tvshowdir, "w", encoding="utf8")
                     file.write(finishtvshownfo(bangumiresult))
@@ -340,6 +342,7 @@ for videofullpath in filelist:
                     for item in json.loads(bangumiresult.text)['bangumi']['episodes']:
                         totalEpisode = totalEpisode+1
                     # 每个文件夹第一次进行总集数计算
+                    finishBgmNfoFlag=1
                 if animeIdAndEpisodeIdAndSelectFlag[1] != 0:
                     singleepdir = os.path.splitext(videofullpath)[0]+'.nfo'
                     file = open(singleepdir, 'w', encoding="utf8")
@@ -362,6 +365,7 @@ for videofullpath in filelist:
             lastanimeId = animeIdAndEpisodeIdAndSelectFlag[0]
             selectflag = animeIdAndEpisodeIdAndSelectFlag[2]
             episodeCounter = episodeCounter+1
+            
             # 收尾阶段 改变各种flag与计数器
             if animeIdAndEpisodeIdAndSelectFlag[0] != 0 and episodeCounter >= totalEpisode:
                 selectflag = 0
@@ -378,6 +382,7 @@ for videofullpath in filelist:
                 lastanimeId = 0
                 episodeCounter = 0
                 totalEpisode = 0
+                finishBgmNfoFlag=0
                 # 检测是否切换目录 重置flag
 
             ddplayMatchResult = findtheanimewithouthash(videofullpath)
@@ -388,7 +393,7 @@ for videofullpath in filelist:
                 bangumiresult = findbangumiinfo(
                     animeIdAndEpisodeIdAndSelectFlag[0])
                 epdatadict = getepdata(bangumiresult)
-                if os.path.dirname(videofullpath) != lastvideopath:
+                if os.path.dirname(videofullpath) != lastvideopath or finishBgmNfoFlag==0:
                     tvshowdir = os.path.dirname(videofullpath)+r'\tvshow.nfo'
                     file = open(tvshowdir, "w", encoding="utf8")
                     file.write(finishtvshownfo(bangumiresult))
@@ -397,6 +402,7 @@ for videofullpath in filelist:
                     for item in json.loads(bangumiresult.text)['bangumi']['episodes']:
                         totalEpisode = totalEpisode+1
                     # 每个文件夹第一次进行总集数计算
+                    finishBgmNfoFlag=1
                 if animeIdAndEpisodeIdAndSelectFlag[1] != 0:
                     singleepdir = os.path.splitext(videofullpath)[0]+'.nfo'
                     file = open(singleepdir, 'w', encoding="utf8")
